@@ -1,0 +1,39 @@
+<html>
+<head>
+<style>
+thead th { position: sticky; top: 0; background-color: white;}
+</style>
+</head>
+<body>
+<div>
+  This is reproduction of <a href='http://crbug.com/1139805' target='_blank'>http://crbug.com/1139805</a>.Click "load fonts" button and approve it then you can see postscriptName and fullName proparties from your local fonts.
+</div>
+  <table>
+    <thead>
+      <th>postscriptName</th>
+      <th>fullName</th>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <button>load fonts</button>
+  <script>
+    (() => {
+      document.querySelector('button').addEventListener('click', async () => {
+        await navigator.permissions.request({ name: "font-access" });
+
+        const tbody = document.querySelector('tbody');
+        for await (const font of navigator.fonts.query()) {
+          const tds = [font.postscriptName, font.fullName].map(name => {
+            const td = document.createElement('td');
+            td.textContent = name;
+            return td;
+          });
+          const tr = document.createElement('tr');
+          tr.append(...tds)
+          tbody.append(tr);
+        }
+      })
+    })()
+  </script>
+</body>
+</html>
