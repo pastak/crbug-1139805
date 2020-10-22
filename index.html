@@ -19,7 +19,14 @@ thead th { position: sticky; top: 0; background-color: white;}
   <script>
     (() => {
       document.querySelector('button').addEventListener('click', async () => {
-        await navigator.permissions.request({ name: "font-access" });
+        if (navigator.permissions.request) {
+          await navigator.permissions.request({ name: "font-access" });
+        } else {
+         const status = await navigator.permissions.query({ name: "font-access" });
+         if (status.state !== 'granted') {
+           alert('Please accept local font access from the site info menu on the left side on omnibar');
+         }
+        }
 
         const tbody = document.querySelector('tbody');
         for await (const font of navigator.fonts.query()) {
