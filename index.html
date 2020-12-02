@@ -12,6 +12,7 @@ thead th { position: sticky; top: 0; background-color: white;}
     <thead>
       <th>postscriptName</th>
       <th>fullName</th>
+      <th>Sample</th>
     </thead>
     <tbody></tbody>
   </table>
@@ -35,6 +36,11 @@ thead th { position: sticky; top: 0; background-color: white;}
             td.textContent = name;
             return td;
           });
+          const sample = document.createElement('td');
+          sample.textContent = 'The Quick Brown Fox Jumps Over The Lazy Dog. こんにちは永遠。';
+          sample.style.fontFamily = font.fullName;
+          tds.push(sample);
+
           const tr = document.createElement('tr');
           tr.append(...tds)
           tbody.append(tr);
